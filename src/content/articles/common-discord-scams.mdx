@@ -1,0 +1,71 @@
+---
+title: "Common Discord Scams to Watch Out For"
+description: "A rundown of the most frequently seen scam types on Discord, how they work, and how to protect yourself."
+category: "security"
+difficulty: "beginner"
+publishedAt: 2026-05-07
+---
+
+I run a lot of communities on Discord. Which means I see the same scams come through, over and over, in different servers, in different forms, like some kind of horrible recurring nightmare. Compromised accounts spread these things _fast_ - once one person gets caught, their account immediately starts messaging everyone they know.
+
+So here's a rundown of the ones I see most often, and what you should know about each.
+
+## Nitro Scams
+
+The most common one, and self-propagating. Someone - usually a victim of the same scam - sends you a "free Nitro" link, either in a DM or dropped into multiple channels at once.
+
+These links use **URL hijacking**: they _look_ like legitimate Discord domains, but they are not. If you click through and "log in", you have just handed the attacker your account token. Your account then starts sending the same message to everyone you know.
+
+I'd say the giveaway is the urgency and the fact that it arrived out of nowhere - but honestly, the links are often convincing enough that people who know better still click. The best defence is simply: free Nitro offers in DMs are always scams. Every single time.
+
+## "Try My Game" Scams
+
+Someone asks you to play-test their game. The game is usually hosted on itch.io and looks like a real project.
+
+When you download and run it, the executable reads your Discord client's local data and extracts your token. The attacker now has your account and uses it to continue spreading the same messages.
+
+Don't download games from strangers on Discord. That's the whole rule.
+
+## Steam Report Scam
+
+You get a DM from someone claiming they accidentally reported you to Steam, and that you need to speak with their friend who "works at Valve" to sort it out.
+
+They did not report you. Their friend does not work at Valve. This is social engineering - they want you to follow a link or hand over account information. Steam does not resolve disputes over Discord DMs, and Valve employees do not work this way.
+
+Ignore it and move on.
+
+## Fake Discord Official Announcement Scams
+
+You get a DM from an account that looks like it is from Discord - it mentions a beta test, the moderator programme, HypeSquad events, or something similarly official-sounding, with a link to a form to apply.
+
+This is not legitimate, **even if the message includes a link to a real Discord server**. Real system messages from Discord come through a special account with a `system` badge, not a regular user account. If there is no system badge, it is not Discord.
+
+## QR Code Scams
+
+You join a server and it tells you to scan a QR code with your Discord mobile app to verify or unlock access.
+
+Do not scan it.
+
+The only legitimate QR code you should ever scan with the Discord app is the one on the official `discord.com/login` page (and watch the URL carefully there too) or within the Discord desktop app itself. Any third-party use of this is a scam. Scanning a malicious QR code logs the attacker into your account from their device.
+
+I see this one a lot targeted at NSFW servers and job-related servers, where people feel more urgency or more reason to trust an extra verification step.
+
+## Small Text Markdown Exploit
+
+Discord added a small text markdown feature that took scammers approximately two seconds to start abusing. The technique lets them hide fake instructions or misleading fine print in messages.
+
+One thing worth knowing: in legitimate use, the `Dismiss message` option in an ephemeral bot response is **never** a link to anywhere. It just clears the message. If you see small text that contains a link formatted like a dismiss button, that is a red flag.
+
+## General Advice
+
+The best defence against all of these is not a verification bot or an anti-phishing tool. It's basic internet habits:
+
+- Don't click unfamiliar links, even from people you trust - their account may be compromised
+- Don't sign in to websites you do not recognise
+- Always check the full URL before entering any credentials
+- Use a password manager - most of them will not autofill credentials on the wrong site, which catches spoofed login pages automatically
+- If you see a server invite being spammed across multiple channels, there's a very good chance that server is not safe - don't join it
+
+And if someone in a server you're in sends you something suspicious, let a moderator know. We'd rather investigate a false alarm than miss a compromised account that then messages another two hundred people.
+
+Stay safe out there~

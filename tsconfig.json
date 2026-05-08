@@ -1,0 +1,9 @@
+{
+  "extends": "@nhcarrigan/typescript-config",
+  "compilerOptions": {
+    "outDir": "./prod",
+    "rootDir": "."
+  },
+  "include": [".astro/types.d.ts", "src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["test/**/*.ts"]
+}

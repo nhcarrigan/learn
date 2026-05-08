@@ -1,0 +1,25 @@
+# Astro build output
+dist/
+prod/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Env files (prod.env with 1Password refs is committed; local overrides are not)
+.env
+.env.local
+*.local.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# pnpm
+.pnpm-store/

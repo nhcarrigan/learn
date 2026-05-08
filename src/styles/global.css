@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Creepster&family=Griffy&family=Henny+Penny&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --witch-purple: #2B1B3D;
+  --witch-plum: #44275A;
+  --witch-rose: #A8577E;
+  --witch-mauve: #D4A5C7;
+  --witch-lavender: #E8D5E8;
+  --witch-black: #0A0009;
+  --witch-silver: #C0C0C0;
+  --witch-moon: #F5F5F5;
+  --witch-shadow: rgba(10, 0, 9, 0.7);
+
+  --foreground: var(--witch-purple);
+  --background: var(--witch-moon);
+  --accent: var(--witch-rose);
+  --border: var(--witch-mauve);
+  --highlight: var(--witch-plum);
+
+  --bg-card: rgba(68, 39, 90, 0.08);
+  --text-muted: var(--witch-rose);
+  --colour-success: #2ecc71;
+  --colour-warning: #f39c12;
+  --colour-danger: #e74c3c;
+  --font-heading: 'Griffy', cursive;
+  --font-body: 'Kalam', cursive, sans-serif;
+  --font-mono: "Fira Code", "Cascadia Code", monospace;
+  --radius: 0.5rem;
+}
+
+.is-dark {
+  --foreground: var(--witch-lavender);
+  --background: var(--witch-black);
+  --accent: var(--witch-rose);
+  --border: var(--witch-plum);
+  --highlight: var(--witch-mauve);
+  --bg-card: rgba(68, 39, 90, 0.3);
+  --text-muted: var(--witch-silver);
+}
+
+html {
+  font-family: var(--font-body);
+  background-color: var(--background);
+  color: var(--foreground);
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+body {
+  min-height: 100vh;
+}
+
+main.site-main {
+  text-align: left;
+  margin-bottom: 100px;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  font-family: var(--font-mono);
+  background-color: var(--bg-card);
+  padding: 0.1em 0.3em;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+}
+
+pre {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+footer {
+  z-index: 10;
+}

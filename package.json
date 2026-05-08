@@ -1,0 +1,21 @@
+{
+  "name": "@nhcarrigan/learn",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "lint": "eslint --max-warnings 0 .",
+    "sync": "astro sync"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "5.0.4",
+    "@nhcarrigan/eslint-config": "5.2.0",
+    "@nhcarrigan/typescript-config": "4.0.0",
+    "astro": "6.3.1",
+    "eslint": "9.39.4",
+    "typescript": "6.0.3"
+  }
+}

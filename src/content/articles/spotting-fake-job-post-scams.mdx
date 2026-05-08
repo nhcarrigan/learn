@@ -1,0 +1,79 @@
+---
+title: "Spotting Fake Job Post Scams"
+description: "How to tell whether a job offer email is genuine - including how to read email authentication headers like SPF and DKIM."
+category: "security"
+difficulty: "intermediate"
+publishedAt: 2026-05-07
+---
+
+Someone I know nearly fell for one of these. They're a smart, experienced person who knows better - and it almost got them anyway. That's the thing about fake LinkedIn job posts: they work precisely because they target you at your most vulnerable. You want the offer to be real, so your guard comes down.
+
+Let's talk about how to tell whether it is.
+
+## Step One: Does the Email Come From the Right Domain?
+
+A real email from a company should come from that company's domain. If the company is NaomiCorp and their website is `naomicorp.com`, an email from `naomicorp@gmail.com` or `careers@naomicorp.org` is a red flag - those domains don't match.
+
+I know this sounds obvious. But when you're excited about a job opportunity, it's easy to notice the company name and not look closely at what follows the `@`.
+
+## Step Two: Check the Email Headers
+
+Even an email address that looks right can be spoofed. The real test is in the headers.
+
+Most email clients let you view the raw message. In Gmail, click the three-dot menu on a message and choose **Show original**. In Outlook, go to **File > Properties** and look under **Internet headers**. You're looking for something like this:
+
+```
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@nhcarrigan.com header.s=mail header.b="P0TRq/Qy";
+       spf=pass (google.com: domain of naomi@nhcarrigan.com designates 128.199.1.98 as permitted sender)
+```
+
+Both `dkim` and `spf` should say `pass`. If either says `fail`, the email may be spoofed.
+
+### What is SPF?
+
+SPF stands for **Sender Policy Framework**. It is a DNS record that lets a domain owner specify which mail servers are allowed to send email on their behalf.
+
+When you receive an email claiming to be from `naomicorp.com`, the receiving server checks the SPF record for that domain and confirms whether the email actually came from an authorised server. If it didn't, SPF fails.
+
+You can check a domain's SPF record yourself - run `dig TXT nhcarrigan.com +short` in your terminal and look for the `v=spf1` entry.
+
+### What is DKIM?
+
+DKIM stands for **DomainKeys Identified Mail**. It is a cryptographic signature that proves the email has not been tampered with in transit.
+
+It works in two parts:
+
+- A DKIM record in the domain's DNS (you can look one up yourself with `dig TXT mail._domainkey.nhcarrigan.com +short`)
+- A DKIM-Signature header inside the email itself
+
+The receiving mail server uses the DNS record to verify the signature in the header. If the signatures match, the email arrived intact. If they do not, it may have been tampered with.
+
+### What is DMARC?
+
+DMARC is the enforcement layer. A domain owner uses a DMARC policy to specify what should happen when an email fails SPF or DKIM checks: do nothing, route it to spam, or reject it outright.
+
+It is not foolproof - some domains do not have a DMARC policy configured, or have it set to "do nothing" - but combined with SPF and DKIM, it is a meaningful signal.
+
+## The Red Flags That Actually Matter
+
+Even if the authentication checks pass, watch for these patterns:
+
+**They always want to hire you.** Legitimate recruitment involves screening, interviews, and - yes - rejection. If a "recruiter" seems keen to hire you immediately with no real process, their goal is your personal information or your money, not your skills.
+
+**They want you to pay for something.** No legitimate employer requires you to pay for training, equipment, or onboarding. If money flows from you to them before you have even started, it's a scam.
+
+**They want to send you a cheque.** This is the classic overpayment scam - they send you a cheque for more than agreed, ask you to cash it and wire back the difference, and then the cheque bounces. You are out the wired funds and they are long gone.
+
+**It feels too good to be true.** If the salary is unusually high, the role seems perfectly tailored to your CV, and there is pressure to accept quickly - slow down. That urgency is deliberate.
+
+## What to Do If You Are Not Sure
+
+1. **Do not respond or click any links** until you have verified the offer is legitimate
+2. **Find the company's official contact independently** - look up their real website and reach out through a contact form or email address you found yourself, not one from the message
+3. **Check whether the company has a Discord or community space** - you can often verify directly with current employees
+4. **Ask a trusted technical friend** to look at the headers with you
+
+Anyone can be caught off guard by a well-crafted scam, especially when they're under the stress of a job search. It very nearly happened to me, and I work in tech and know what to look for. Knowing the signs doesn't make you immune - but it does mean you're much less likely to be caught out.
+
+Stay safe out there~

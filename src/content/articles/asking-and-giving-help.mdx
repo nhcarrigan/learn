@@ -1,0 +1,79 @@
+---
+title: "How to Ask for Help (And How to Give It)"
+description: "Two sides of the same coin - what makes a good question, and how to guide someone to an answer without just handing it to them."
+category: "community"
+difficulty: "beginner"
+publishedAt: 2026-05-07
+---
+
+Something I've noticed after years of running communities and helping people learn: most problems with getting help aren't about knowledge gaps at all. They're about communication. Either the person asking hasn't given enough to work with, or the person helping has jumped straight to the answer and accidentally short-circuited the learning.
+
+Both sides of this are worth understanding. So here are both.
+
+## Asking for Help Well
+
+There's a difference between _asking for help_ and _asking someone to do the thing for you_. Neither is wrong, exactly, but they produce very different outcomes.
+
+### Tell us what you've already tried
+
+This is the single most useful thing you can include in a help request. Not just "I'm stuck" or "this isn't working" - but what did you try? What happened when you tried it? What did you expect to happen instead?
+
+"My code doesn't work" is not a question. "I expected this function to return a sum, but it's returning `NaN`, and I've checked that the values are numbers going in" - that's a question. The second version gives anyone helping you something to actually respond to.
+
+It also forces you to think through what you actually know, which is often where the answer lives.
+
+### Give us something minimal and reproducible
+
+If you're sharing code, please don't paste your entire 300-line file. Strip it down to the smallest version that still shows the problem. This is useful for you _and_ for the person helping - it removes the noise and makes the actual issue much easier to spot.
+
+I'd say the majority of times I've asked someone to do this, they find the problem themselves in the process of making the minimal example. That's not a coincidence.
+
+### Ask about the thing you actually don't understand
+
+It sounds obvious. It isn't. A lot of people ask about _symptoms_ rather than the underlying confusion. "Why does JavaScript do this?" is less useful than "I thought variables were always accessible throughout a function - why is `x` undefined inside this loop?"
+
+The more specific you can be about where your mental model breaks down, the faster someone can help you fix it.
+
+### Don't paste the error and disappear
+
+Share the error message, yes. Also share what line it happened on, what you were doing when it appeared, and any relevant context. An error message without context is just noise. With context, it's a road map.
+
+## Giving Help Well
+
+Now for the other side.
+
+The temptation, when someone asks you a question you know the answer to, is to just... answer it. I get it. It feels efficient. It solves the immediate problem.
+
+The thing is, it doesn't actually help.
+
+### The answer they can find themselves is worth more
+
+When someone works through a problem and reaches the answer through their own reasoning, something clicks that doesn't happen when you just hand them the solution. They own it. It becomes part of how they think, not just something they copy-pasted.
+
+If you hand someone the answer, they'll be back with the same question in a different shape next week. If you guide them to it, they probably won't need to ask again.
+
+### The Socratic method works
+
+I've written about this before in the context of code specifically, but the principle applies everywhere. Rather than answering directly, ask questions. Start broad, then get narrower as the person gets closer.
+
+The goal is to get them thinking about _what they already know_ that applies here - because usually, they know more than they think.
+
+For something like "how do I find the sum of numbers in an array?", instead of writing the function for them, try: "How would you do this on paper, without any code?" Almost everyone knows how to add a list of numbers. The answer to that question usually unlocks the rest.
+
+Each question you ask should narrow in, based on where they are. If they've understood the logic but are stuck on syntax, ask about syntax. If they don't yet understand the underlying concept, stay at the concept level a bit longer.
+
+### Tell them what to try, not what the answer is
+
+There's a version of helping that lives in between "here's the answer" and "ask endless questions". It looks like: "I'd look at how your variable is being scoped here" or "check what type that value actually is at that point in the function."
+
+You're giving them direction without removing the work. They still have to figure out _what_ the scoping issue is, or _why_ the type is unexpected. You've just pointed them at the right corner of the room.
+
+### Don't shame people for asking
+
+I've seen helpers make people feel embarrassed for asking "basic" questions. It's counterproductive and unkind. There are no questions that don't deserve a genuine response. If someone is asking, they're trying to learn, and that's a good thing.
+
+The goal of giving help is not to demonstrate what you know. It's to help the other person understand something. Those are different things.
+
+---
+
+Learning happens in the space between confusion and understanding. Good questions make that space navigable. Good guidance keeps the learner in the driver's seat. Both take a bit of practice, but they're worth developing - you'll use them constantly, in every community and every project, for the rest of your life~

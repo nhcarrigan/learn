@@ -1,0 +1,346 @@
+---
+title: "Optimising Your Token Usage in Claude Code"
+description: "A practical guide to getting more done without hitting your usage limits - from everyday habits to advanced techniques."
+category: "tools"
+difficulty: "intermediate"
+publishedAt: 2026-05-07
+---
+
+I had to write this guide for some colleagues of mine, and decided it was worth sharing more widely because the same handful of habits come up every time I watch someone burn through their usage cap faster than they should.
+
+If you're on a Pro or Max plan, your budget is generous - but finite. The good news is that most token waste comes from a small set of fixable patterns, and fixing them doesn't require changing how you fundamentally work with Claude Code. It mostly requires changing a few habits.
+
+## Quick Reference
+
+| Wasteful Habit | Better Approach |
+|---|---|
+| Pasting entire files | Reference by file path |
+| Long-running conversations | Start fresh after each task |
+| Vague requests | Specify the exact file, function, and problem |
+| Asking Claude to explain everything | Only ask when you genuinely need to understand |
+| Re-explaining project context | Use CLAUDE.md |
+| Indexing irrelevant files | Use .claudeignore |
+| Retyping repeated prompts | Create custom slash commands |
+| Opus for everything | Match the model to the task |
+| Confirmation loops | Tell Claude to act; specify constraints upfront |
+| Pasting screenshots of text | Copy the text directly |
+| Asking Claude to summarise what it just did | Look at the changes yourself |
+| Using Claude Code for quick questions | Use claude.ai instead |
+| Multiple related changes as separate messages | Batch them into one prompt |
+| Jumping into a complex task | Use /plan first |
+| Simple one-line edits | Just do it yourself |
+| Extended thinking left on by default | Enable only for genuinely complex reasoning |
+
+## Understand What's Actually Costing You
+
+Tokens are consumed by everything in the context window - not just your latest message, but the entire conversation history, every file you've pasted, every response Claude has given.
+
+One thing a lot of people don't realise: **output tokens cost roughly three to five times more than input tokens.** This means asking Claude for lengthy explanations, verbose generated code, or exhaustive documentation is disproportionately expensive. If you don't need the explanation, say so upfront. "Make the change, no explanation needed" saves more than you might expect.
+
+The single biggest lever you have is context window size. A bloated conversation is the most common cause of hitting limits early.
+
+## Start Fresh Conversations Aggressively
+
+This is probably the most impactful single change you can make. After a task is complete, that conversation history is dead weight. If you're starting a new task - even a loosely related one - open a new conversation.
+
+Signs you should start fresh:
+
+- The task is different from what you were just doing
+- You've been in the same conversation for over an hour
+- Claude has already completed what you asked and you're moving on
+
+In Claude Code, use `/clear` to reset the context without closing the session.
+
+## Don't Paste Files - Let Claude Read Them
+
+A very common pattern:
+
+> "Here's my code: [pastes 400 lines]... can you fix the bug in the `validateUser` function?"
+
+This is expensive. Claude Code can read files directly from your filesystem. Instead:
+
+> "Fix the bug in the `validateUser` function in `src/auth/validator.ts`."
+
+Claude will read exactly what it needs. You save hundreds or thousands of tokens per interaction.
+
+The rule: if the file exists on disk, reference it by path. Never paste unless Claude explicitly cannot access it.
+
+You can also type `#` in the Claude Code prompt to attach a specific file directly to the conversation - more precise than asking Claude to go find something on its own.
+
+## Be Specific From the Start
+
+Vague requests lead to expensive back-and-forth. Every clarifying message adds to the context. Front-load the specifics:
+
+Instead of:
+
+> "Can you help me with my authentication system?"
+
+Try:
+
+> "The `refreshToken` endpoint in `src/routes/auth.ts` is returning a 401 on valid tokens. The token validation logic lives in `src/middleware/auth.ts`. Please diagnose and fix the issue."
+
+One well-specified message replaces three or four vague ones.
+
+It is also worth being explicit about what _not_ to touch:
+
+> "Only change the render method. Do not modify the props interface or the styles."
+
+This prevents unwanted refactoring and saves the correction turns that follow it.
+
+## Ask for Exactly What You Need
+
+Some phrases generate unnecessary tokens:
+
+- "Can you explain what you just did?" - skip this unless you genuinely need to understand it
+- "What do you think about..." - open-ended questions invite long responses
+- "Walk me through your reasoning" - only ask when the reasoning matters to you
+
+Some phrases that keep responses tight:
+
+- "Fix X in Y" - just do it, no explanation needed
+- "List only the changed files"
+- "Give me the updated function only, not the full file"
+
+And - don't ask Claude to summarise what it just did. The changes are right there in your editor. Reading them yourself is free.
+
+## Use CLAUDE.md for Persistent Context
+
+If you find yourself re-explaining the same things at the start of every conversation - your project structure, your coding standards, your preferred tools - you're wasting tokens every single time.
+
+`CLAUDE.md` files solve this. Claude Code reads them automatically at the start of each session. Create one in your project root with:
+
+- Tech stack and architecture overview
+- Key file locations
+- Standards and conventions
+- Anything you'd otherwise have to re-explain
+
+Keep it lean. Every line is read at the start of every session. A bloated `CLAUDE.md` costs you tokens before you've typed a single message. Include only what Claude genuinely needs - and review it occasionally to remove anything that has gone stale.
+
+## Break Large Tasks Into Focused Sub-Tasks
+
+Large tasks generate large context, large responses, and more opportunities for misunderstanding that requires correction.
+
+Better approach:
+
+1. "Audit `src/components/` and list every component that's missing prop validation." - small, focused
+2. Review the list, pick the ones you want fixed
+3. "Add prop validation to the components in `src/components/forms/`." - targeted fix
+
+Each conversation stays lean. You only spend tokens on what you actually need.
+
+## Avoid Confirmation Loops
+
+A surprisingly common pattern:
+
+> You: "Can you update the button styles?"
+> Claude: "Sure! I'll update the button styles by modifying the CSS to..."
+> You: "Yes, go ahead."
+> Claude: [does the thing]
+
+That middle exchange cost you tokens and time. Claude Code is an agent - you can just tell it to do things. If you have concerns about scope, be explicit upfront: "Update the button styles - check with me before touching anything outside `src/styles/buttons.css`."
+
+## Compact Long Conversations
+
+When you want to continue work rather than start fresh, use `/compact` in Claude Code. This summarises the conversation history into a condensed form, freeing up context window space whilst preserving the key information.
+
+Use this when:
+
+- You're mid-task and can't start fresh
+- The conversation is getting slow or hitting context limits
+- You've completed several sub-tasks and want to continue
+
+## Choose the Right Model for the Task
+
+Claude Opus is powerful but expensive. Claude Sonnet is the sweet spot for most development work. Claude Haiku is excellent for simple, high-volume tasks.
+
+If your plan gives you model selection, use it deliberately:
+
+- **Haiku:** boilerplate generation, simple refactors, quick lookups
+- **Sonnet:** most coding tasks, debugging, code review
+- **Opus:** genuinely complex architecture decisions, nuanced analysis
+
+Using Opus for everything is like driving a lorry to pick up groceries. It gets the job done, but it's not the right tool.
+
+## Use .claudeignore to Exclude Irrelevant Files
+
+When Claude Code starts a session, it indexes your project. If your repository contains large generated directories, build artefacts, or vendor files, Claude is spending context on things it will never need to touch.
+
+Create a `.claudeignore` file in your project root using the same syntax as `.gitignore`:
+
+```
+node_modules/
+dist/
+build/
+.next/
+coverage/
+*.log
+```
+
+## Create Custom Slash Commands for Repeated Workflows
+
+If you find yourself typing the same prompt over and over - running a code review, generating a specific type of test, writing a commit message - turn it into a custom slash command.
+
+Custom commands live in `.claude/commands/` in your project (or `~/.claude/commands/` for global commands available in every project). Each command is a markdown file where the filename becomes the command name. `.claude/commands/review.md` becomes `/review`.
+
+This ensures consistent, well-structured prompts every time - no more accidentally leaving out key context because you were typing from memory.
+
+## Don't Paste Screenshots When Text Will Do
+
+Images are token-heavy. Pasting a screenshot of an error message, a terminal output, or a UI bug costs significantly more than just copying the text.
+
+Screenshots are genuinely useful for visual layout bugs, design feedback, or anything where the visual content itself is the point. For error messages, terminal output, and code - just paste the text. If you could copy-paste it, do that instead.
+
+## Use the Right Interface for the Task
+
+Claude Code is a powerful agentic tool. That power comes with overhead. Loading it up to ask a quick question is like starting a car to walk to the end of the driveway.
+
+**Use claude.ai for:**
+
+- Quick questions ("what does this regex do?", "explain this algorithm")
+- Brainstorming and ideation
+- Drafting text or documentation without file context
+- Anything where you'd just be typing a question and reading an answer
+
+**Use Claude Code for:**
+
+- Anything that requires reading, writing, or editing files
+- Debugging with access to your actual codebase
+- Multi-step agentic tasks
+- Anything that benefits from your project's `CLAUDE.md` context
+
+Keeping this distinction in mind means your Claude Code sessions stay focused on work that genuinely needs them.
+
+## Batch Related Changes Into One Request
+
+One request that makes five related edits is far cheaper than five separate requests.
+
+Instead of:
+
+> "Rename `getUserById` to `fetchUser`."
+> "Now update the call in the controller."
+> "Now update the call in the tests."
+
+Try:
+
+> "Rename `getUserById` to `fetchUser` everywhere - the function definition in `src/db/users.ts`, its calls in `src/controllers/userController.ts`, and its usage in `test/users.spec.ts`."
+
+Each separate message carries the full conversation history as overhead. Batching related changes keeps the context window lean.
+
+## Use Plan Mode for Complex Tasks
+
+Before Claude starts making changes on a large or uncertain task, use `/plan` to have it outline its approach first. Reviewing a plan is cheap. Undoing a series of incorrect edits is expensive.
+
+This is especially useful for refactors that touch many files, new features where the architecture isn't obvious, or anything where you want to validate the approach before changes are made.
+
+## Know When Not to Use Claude
+
+Just do these yourself:
+
+- Changing a single string or variable name in one place
+- Adding a single line of code you already know
+- Fixing an obvious typo
+
+Use your editor's search for these:
+
+- Finding where a function is defined
+- Finding all usages of a variable
+- Checking which files import a module
+
+Ctrl+Shift+F or Cmd+Shift+F is instant and free. Save Claude for work that genuinely benefits from AI reasoning.
+
+## Use Git to Recover, Not Claude
+
+If Claude makes a change you didn't want, reach for git rather than asking Claude to undo it:
+
+```
+git restore src/path/to/file.ts
+```
+
+This is instant, free, and precise. Asking Claude to revert its own changes costs tokens and risks introducing new problems. Once the file is restored, re-prompt with a more specific instruction.
+
+---
+
+## Advanced Techniques
+
+The tips above will eliminate most waste. These are for when you have the basics down and want to go further.
+
+### Understand the CLAUDE.md Hierarchy
+
+`CLAUDE.md` files are inherited, and Claude Code reads multiple levels:
+
+- `~/.claude/CLAUDE.md` - user-level, applies to every project on your machine
+- `/your-project/CLAUDE.md` - project-level, applies to that project
+- `/your-project/src/CLAUDE.md` - subdirectory-level, applies when working in that folder
+
+Put genuinely universal preferences at the user level. Put project-specific context at the project level. Most people only use the project-level file and end up duplicating preferences across every project - centralising shared context at the user level means you write it once.
+
+### Use Subagents for Parallel, Independent Tasks
+
+Claude Code can spawn subagents - separate instances that each handle a focused task with their own clean context window. Instead of doing three things sequentially in one growing conversation, three subagents can work in parallel, each staying lean and focused.
+
+This is especially powerful for independent tasks:
+
+> "Audit the API routes for missing input validation, audit the database queries for missing error handling, and audit the frontend components for missing loading states - run these in parallel."
+
+Each subagent handles one audit without the others polluting its context.
+
+### Discipline Your Output Format
+
+Every word Claude writes costs tokens. When you only need a specific piece of output, ask for exactly that:
+
+- "Return only the updated function, not the full file"
+- "List the affected files as a bullet list, nothing else"
+- "Respond with JSON only, no explanation"
+- "Give me a one-line summary"
+
+### Use Skills for Complex Repeated Workflows
+
+For multi-step workflows that go beyond a single prompt, Claude Code supports skills - reusable sequences of instructions that can span multiple steps, use tools, and handle conditional logic.
+
+Skills live in `~/.claude/skills/` and are documented in a `SKILL.md` file. Well-written skills pay enormous dividends for workflows you run repeatedly.
+
+### Extend Claude with MCP Servers
+
+MCP (Model Context Protocol) servers give Claude direct access to external systems - databases, APIs, project management tools, documentation, and more. When Claude can query a system directly, you stop needing to paste data in from it.
+
+Without an MCP server:
+
+> "Here's the current database schema: [pastes 200 lines]... can you write a migration?"
+
+With an MCP server:
+
+> "Write a migration based on the current schema."
+
+Claude fetches what it needs directly. This eliminates an entire category of token waste for teams that regularly work against external systems.
+
+### Understand How Caching Works
+
+Claude Code automatically caches stable context - your `CLAUDE.md`, system prompts, and other content that doesn't change between turns. Cached tokens consume roughly 10% of your compute budget compared to fresh tokens.
+
+What this means in practice:
+
+- **The cache has a 5-minute TTL.** If you step away for more than five minutes and come back, your next message pays full price. Use `/compact` before stepping away rather than leaving a context-heavy session idle.
+- **Don't modify your CLAUDE.md mid-session.** Every change invalidates the cache for that content. Make `CLAUDE.md` changes between sessions, not during them.
+- **Short, frequent interactions benefit more than long, sparse ones.** Staying engaged within the TTL window means your stable context stays cached across multiple turns.
+
+### Use Extended Thinking Sparingly
+
+Extended thinking is the right tool for complex architectural decisions, subtle debugging where the cause isn't obvious, and problems that genuinely require multi-step reasoning.
+
+It is not the right tool for routine code generation, simple refactors, or any task where a direct answer is clearly possible. If you're hitting your limits faster than expected and extended thinking is enabled, try disabling it and see how much of a difference it makes.
+
+### Automate Repetitive Setup with Hooks
+
+Hooks are scripts that Claude Code runs automatically in response to specific events - before or after a file edit, after a bash command, before a session ends, and so on.
+
+A hook that automatically runs your linter after every file edit means you never have to type "run the linter" - Claude just handles it. Hooks are configured in your Claude Code settings. Start with one hook for your most repeated manual step and go from there.
+
+### Pre-approve Trusted Tools to Avoid Interruptions
+
+Every time Claude needs to run a command or use a tool you haven't pre-approved, it pauses and waits. In a long task, repeated approval prompts break flow - and sometimes cause Claude to lose track of what it was doing, requiring a recovery turn.
+
+In Claude Code settings, you can pre-approve tools and shell commands you trust. If you always want Claude to be able to run your test suite or your linter without asking, add those permissions once and never be interrupted for them again.
+
+---
+
+If you have questions or suggestions, feel free to come find me~

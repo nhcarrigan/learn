@@ -1,0 +1,58 @@
+---
+title: "The 'Help Me Debug My Repo' NPM Scam"
+description: "How attackers use malicious npm packages to steal your credentials when you run their code - and how to protect yourself."
+category: "security"
+difficulty: "intermediate"
+publishedAt: 2026-05-07
+---
+
+This scam is particularly clever because it exploits something genuinely good about developers: we like helping each other.
+
+Someone reaches out and asks you to take a look at their repository. Maybe they need help debugging something, maybe they're asking for a code review. The repo looks like a real project. You clone it, you run `npm install`, and that's it - you're already compromised.
+
+## What Actually Happens
+
+The malicious npm package in the repository contains a **post-install script**. NPM runs these automatically when you install dependencies. You never had to run their code explicitly, never had to open a file, never had to do anything except type `npm install`.
+
+The script reads your browser's local cache and extracts stored credentials - including your Discord token - and sends them to the attacker. With your Discord token, they have full access to your account.
+
+## Why This Works So Well
+
+The reason this scam catches people who really do know better comes down to a few things.
+
+**You're trying to help.** The request isn't suspicious on its face. Someone needs debugging help, and you're a decent person who helps people with code. Nothing about that set of circumstances triggers alarm bells.
+
+**Most people's mental model of "running untrusted code" is wrong.** The common advice is "don't run untrusted executables." But `npm install` _is_ running code. It executes scripts from every package in the dependency tree, automatically, as part of the install process. If any of those packages is malicious, you're done.
+
+**The repository can look entirely legitimate.** Sensible directory structure, a readme, some commit history. Nothing in the code itself is obviously wrong.
+
+## The Full Picture of What "Running Code" Means
+
+When you interact with someone else's project, here's a more complete picture of what actually executes:
+
+- `npm install` - runs post-install scripts from every package in the dependency tree
+- `npm run <anything>` - obviously executes code
+- Build tools like webpack or vite - their config files are executable JavaScript
+- Some IDE extensions - these can run things automatically when you open a project
+
+The rule I'd suggest: if you do not know where the code came from and cannot verify it, treat the whole thing as potentially hostile - including the install step.
+
+## If You Want to Help Anyway
+
+There are safer ways to review someone's code without putting yourself at risk:
+
+- **Read the code before you run anything.** Check `package.json` - specifically the `scripts` section and the dependency list. Look up anything unfamiliar on [npmjs.com](https://www.npmjs.com) before installing it.
+- **Use a sandboxed environment.** A VM, a container, or a disposable environment you don't mind wiping if something goes wrong.
+- **Ask yourself why they're contacting you.** Legitimate collaboration requests usually happen in context - through an existing relationship, in a community channel, with some shared history. Out-of-nowhere DMs asking you to run their code are a pattern worth questioning.
+
+## If You Think You've Already Been Caught
+
+If you ran `npm install` on a suspicious repository and you're worried:
+
+1. **Change your Discord password immediately** - this invalidates existing tokens
+2. **Log out of all devices** - go to User Settings > Devices in Discord
+3. **Check your account** for any messages you did not send
+4. **Rotate other credentials** that might have been stored in your browser
+5. **Enable 2FA on Discord** if you haven't already
+
+This one is a good reminder that security isn't just about what you actively run - it extends to every step of setting up and working with code.
